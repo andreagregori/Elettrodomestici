@@ -1,1 +1,1 @@
-#pragma once
+//File intestazione
