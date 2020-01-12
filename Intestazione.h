@@ -8,8 +8,8 @@ using namespace std;
 class Componente					//Francesco
 {
 public:
-	Componente();
-	~Componente();
+	Componente(){}
+	~Componente(){}
 
 
 private:
@@ -23,11 +23,11 @@ private:
 class Componente_in_attesa			//Francesco
 {									//Classe che Eredita da Componente
 public:
-	Componente_in_attesa();
-	~Componente_in_attesa();
+	Componente_in_attesa(){}
+	~Componente_in_attesa(){}
 
 private:
-	//Eredita i dati membro di componente piÃ¹ i seguenti..(non mi ricordo se Ã¨ giusto fare cosÃ¬, probabilmente manca qualcosa)
+	//Eredita i dati membro di componente più i seguenti..(non mi ricordo se è giusto fare così, probabilmente manca qualcosa)
 	int waiting_time;
 	int time_stamp;
 };
@@ -36,8 +36,8 @@ private:
 class Elettrodomestico					//Steven
 {
 public:
-	Elettrodomestico();
-	~Elettrodomestico();
+	Elettrodomestico(){}
+	~Elettrodomestico(){}
 
 private:
 	int id;
@@ -49,11 +49,11 @@ private:
 class Elettrodomestico_in_attesa		//Steven
 {										//Classe che eredita da Elettrodomestico
 public:
-	Elettrodomestico_in_attesa();
-	~Elettrodomestico_in_attesa();
+	Elettrodomestico_in_attesa(){}
+	~Elettrodomestico_in_attesa(){}
 
 private:
-	//Eredita i dati membro di Elettredomestico (come prima, non so se si fa cosÃ¬)
+	//Eredita i dati membro di Elettredomestico (come prima, non so se si fa così)
 	int waiting_time;
 };
 
@@ -61,8 +61,8 @@ private:
 class Ordine			//Andrea
 {
 public:
-	Ordine();
-	~Ordine();
+	Ordine(){}
+	~Ordine(){}
 
 private:
 	int time_stamp;
@@ -74,8 +74,8 @@ private:
 class Magazzino			//Steven
 {
 public:
-	Magazzino();
-	~Magazzino();
+	Magazzino(){}
+	~Magazzino(){}
 
 private:
 	vector<Componente_in_attesa> available;
@@ -84,8 +84,8 @@ private:
 class Check				//Francesco
 {
 public:
-	Check();
-	~Check();
+	Check(){}
+	~Check(){}
 
 private:
 	vector<Componente> bought;
@@ -97,14 +97,22 @@ private:
 class Gestione			//Andrea
 {
 public:
-	Gestione();
-	~Gestione();
+	Gestione(){}
+	~Gestione(){}
+
+	void inizializza_comp();
+	void inizializza_elet();
+
+	bool is_componente();
+	bool is_elettrodomestico();
 
 private:
 	int month;
 	vector<Componente_in_attesa> parts;
 	vector<Elettrodomestico_in_attesa> models;
+	vector<Elettrodomestico> elet_disponibili;
+	vector<Componente> comp_disponibili;
 };
 
 
-//Eventuali helper function e overload operatori..
+//Eventuali helper function e overload operatori
