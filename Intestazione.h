@@ -27,7 +27,7 @@ public:
 	~Componente_in_attesa();
 
 private:
-	//Eredita i dati membro di componente più i seguenti..(non mi ricordo se è giusto fare così, probabilmente manca qualcosa)
+	//Eredita i dati membro di componente piÃ¹ i seguenti..(non mi ricordo se Ã¨ giusto fare cosÃ¬, probabilmente manca qualcosa)
 	int waiting_time;
 	int time_stamp;
 };
@@ -53,7 +53,7 @@ public:
 	~Elettrodomestico_in_attesa();
 
 private:
-	//Eredita i dati membro di Elettredomestico (come prima, non so se si fa così)
+	//Eredita i dati membro di Elettredomestico (come prima, non so se si fa cosÃ¬)
 	int waiting_time;
 };
 
@@ -66,7 +66,7 @@ public:
 
 private:
 	int time_stamp;
-	int model_riquired;
+	int model_required;
 	int quantity;
 };
 
