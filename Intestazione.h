@@ -42,6 +42,7 @@ public:
 private:
 	int id;
 	string name;
+	double price;
 	vector<Componente> components;
 };
 
@@ -97,14 +98,14 @@ private:
 class Gestione			//Andrea
 {
 public:
-	Gestione(){}
+	Gestione();
 	~Gestione(){}
 
 	void inizializza_comp();
 	void inizializza_elet();
 
-	bool is_componente();
-	bool is_elettrodomestico();
+	bool is_componente(int id);
+	bool is_elettrodomestico(int id);
 
 private:
 	int month;
