@@ -103,6 +103,7 @@ public:
 
 	void inizializza_comp();
 	void inizializza_elet();
+	void inizializza_orders();
 
 	bool is_componente(int id);
 	bool is_elettrodomestico(int id);
@@ -111,6 +112,7 @@ private:
 	int month;
 	vector<Componente_in_attesa> parts;
 	vector<Elettrodomestico_in_attesa> models;
+	vector<Ordine> orders;
 	vector<Elettrodomestico> elet_disponibili;
 	vector<Componente> comp_disponibili;
 };
