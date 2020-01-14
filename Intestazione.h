@@ -20,14 +20,14 @@ private:
 };
 
 
-class Componente_in_attesa			//Francesco
+class Componente_in_attesa : public Componente			//Francesco
 {									//Classe che Eredita da Componente
 public:
 	Componente_in_attesa(){}
 	~Componente_in_attesa(){}
 
 private:
-	//Eredita i dati membro di componente più i seguenti..(non mi ricordo se è giusto fare così, probabilmente manca qualcosa)
+	//Eredita i dati membro di componente piÃ¹ i seguenti..(non mi ricordo se Ã¨ giusto fare cosÃ¬, probabilmente manca qualcosa)
 	int waiting_time;
 	int time_stamp;
 };
@@ -47,14 +47,14 @@ private:
 };
 
 
-class Elettrodomestico_in_attesa		//Steven
+class Elettrodomestico_in_attesa : public Elettrodomestico		//Steven
 {										//Classe che eredita da Elettrodomestico
 public:
 	Elettrodomestico_in_attesa(){}
 	~Elettrodomestico_in_attesa(){}
 
 private:
-	//Eredita i dati membro di Elettredomestico (come prima, non so se si fa così)
+	//Eredita i dati membro di Elettredomestico (come prima, non so se si fa cosÃ¬)
 	int waiting_time;
 };
 
