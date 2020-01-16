@@ -10,7 +10,7 @@ vector<Ordine> Gestione::ordini_evasi()
 		{
 			tmp.push_back(ordini_in_attesa[i]);
 			//elimina l'ordine venduto dalla coda
-			//ordini_in_attesa.erase(i);
+			ordini_in_attesa.erase(ordini_in_attesa.begin() + i);
 		}
 	}
 	return tmp;
@@ -25,7 +25,7 @@ vector<Elettrodomestico> Gestione:: elettrodomestici_venduti()
 		{ 
 			tmp.push_back(models[i]);
 			//elimina l'elettrodomestico venduto dalla coda
-			//models.erase(i);
+			models.erase(models.begin() + i);
 		}
 	}
 	return tmp;
@@ -36,11 +36,11 @@ vector<Componente> Gestione::componenti_arrivati()
 	vector<Componente> tmp;
 	for (int i = 0; i < parts.size(); i++)
 	{
-		if (parts[i].getWaitingTime == month)
+		if ((int)parts[i].getWaitingTime == month)
 		{
 			tmp.push_back(parts[i]);
 			//elimina componenti arrivati dalla coda
-			//parts.erase(i);
+			parts.erase(parts.begin()+i);
 		}
 	}
 	return tmp;
@@ -67,8 +67,8 @@ vector<Componente_in_attesa> Gestione::ordina_componenti()
 			}
 
 			aggiungiElettrodomestici(orders[i].getQuantity(), tmp1);
-			ordini_in_attesa.push_back(orders[i]);
-			orders.erase[i];
+			ordini_in_attesa.push_back(Ordine_in_attesa(orders[i],month));
+			orders.erase(orders.begin() + i);
 		}
 	}
 	return tmp;
@@ -81,21 +81,6 @@ Elettrodomestico Gestione::cercaElettrodomestico(int id)
 		if (id == elet_disponibili[i].getId())
 			return elet_disponibili[i];
 	}
-}
-
-vector<Ordine> Gestione::ordiniEvasi()
-{
-	vector<Ordine> tmp;
-	for (int i = 0; i < ordini_in_attesa.size(); i++)
-	{
-		if (ordini_in_attesa[i].getWaitingTime == month)
-		{
-			tmp.push_back(ordini_in_attesa[i]);
-			//elimina ordine venduto dalla coda
-			ordini_in_attesa.erase(i);
-		}
-	}
-	return tmp;
 }
 
 void Gestione::aggiungiComponenti(int qta, Componente component)
