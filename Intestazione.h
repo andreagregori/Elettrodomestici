@@ -76,7 +76,7 @@ private:
 };
 
 
-class Ordine			//Andrea
+class Ordine			//Steven
 {
 public:
 	Ordine(){}
@@ -88,7 +88,7 @@ private:
 	int quantity;
 };
 
-class Ordine_in_attesa : public Ordine			//Andrea
+class Ordine_in_attesa : public Ordine			//Steven
 {
 public:
 	Ordine_in_attesa() {}
@@ -99,15 +99,6 @@ private:
 	double prezzo_totale;
 };
 
-class Magazzino			//Steven
-{
-public:
-	Magazzino(){}
-	~Magazzino(){}
-
-private:
-	vector<Componente_in_attesa> available;
-};
 
 class Gestione			//Andrea
 {
