@@ -88,6 +88,16 @@ private:
 	int quantity;
 };
 
+class Ordine_in_attesa : public Ordine			//Andrea
+{
+public:
+	Ordine_in_attesa() {}
+	~Ordine_in_attesa() {}
+
+private:
+	int waiting_time;
+	double prezzo_totale;
+};
 
 class Magazzino			//Steven
 {
@@ -116,6 +126,7 @@ private:
 	int month;
 	vector<Componente_in_attesa> parts;
 	vector<Elettrodomestico_in_attesa> models;
+	vector<Ordine_in_attesa> orini_in_attesa;
 	vector<Ordine> orders;
 	vector<Elettrodomestico> elet_disponibili;
 	vector<Componente> comp_disponibili;
