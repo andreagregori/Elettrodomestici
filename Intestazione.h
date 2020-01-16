@@ -119,6 +119,14 @@ public:
 	void inizializza_elet();
 	void inizializza_orders();
 
+	vector<Ordine> ordini_evasi();
+	vector<Elettrodomestico> elettrodomestici_venduti();
+	vector<Componente> componenti_arrivati();
+	vector<Componente_in_attesa> ordina_componenti();
+	Elettrodomestico cercaElettrodomestico(int id);
+	void aggiungiComponenti(int qta, Componente component);
+	void aggiungiElettrodomestici(int qta, Elettrodomestico elett);
+
 	bool is_componente(int id);
 	bool is_elettrodomestico(int id);
 
@@ -126,7 +134,7 @@ private:
 	int month;
 	vector<Componente_in_attesa> parts;
 	vector<Elettrodomestico_in_attesa> models;
-	vector<Ordine_in_attesa> orini_in_attesa;
+	vector<Ordine_in_attesa> ordini_in_attesa;
 	vector<Ordine> orders;
 	vector<Elettrodomestico> elet_disponibili;
 	vector<Componente> comp_disponibili;
