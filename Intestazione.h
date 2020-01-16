@@ -8,9 +8,20 @@ using namespace std;
 class Componente					//Francesco
 {
 public:
-	Componente(){}
-	~Componente(){}
+	Componente();
+	Componente(int id, string name, int time, int quantity);
+	~Componente();
 
+	void setId(int id);
+	void setName(string name);
+	void setDeliveryTime(int time);
+	void setQuantity(int qta);
+
+	int getId();
+	string getName();
+	int getDeliveryTime();
+	int getQuantity();
+	
 
 private:
 	int id;
@@ -20,17 +31,23 @@ private:
 };
 
 
-class Componente_in_attesa : public Componente			//Francesco
+class Componente_in_attesa : public Componente		//Francesco
 {									//Classe che Eredita da Componente
 public:
-	Componente_in_attesa(){}
-	~Componente_in_attesa(){}
+	Componente_in_attesa();
+	Componente_in_attesa(Componente component, int time_stamp);
+	~Componente_in_attesa();
+
+	void setTimeStamp(int time);
+	int getTimeStamp();
+	int getWaitingTime();
 
 private:
-	//Eredita i dati membro di componente più i seguenti..(non mi ricordo se è giusto fare così, probabilmente manca qualcosa)
+	Componente componente;
 	int waiting_time;
 	int time_stamp;
 };
+
 
 
 class Elettrodomestico					//Steven
@@ -81,19 +98,6 @@ public:
 private:
 	vector<Componente_in_attesa> available;
 };
-
-class Check				//Francesco
-{
-public:
-	Check(){}
-	~Check(){}
-
-private:
-	vector<Componente> bought;
-	vector<Componente> warehouse;
-	vector<Elettrodomestico> sold;
-};
-
 
 class Gestione			//Andrea
 {
