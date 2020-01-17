@@ -53,9 +53,23 @@ private:
 class Elettrodomestico					//Steven
 {
 public:
-	Elettrodomestico(){}
-	~Elettrodomestico(){}
+	Elettrodomestico();
+	Elettrodomestico(int num, string model, const vector<Componente> parts);
+	Elettrodomestico(int num, string model, const vector<Componente> parts, double prezzo);
+	~Elettrodomestico();
+	
+	int getId();
+	string getName();
+	Componente* getComponents();	//va bene il tipo restituito?
+	double getPrice();
+	double calculatePrice(const vector<Componente> pezzi);
+	
+	void setId(int num);
+	void setName(string model);
+	void setComponents(const vector<Componente> parts);
+	void setPrice(double prezzo);
 
+	
 private:
 	int id;
 	string name;
@@ -67,11 +81,21 @@ private:
 class Elettrodomestico_in_attesa : public Elettrodomestico		//Steven
 {										//Classe che eredita da Elettrodomestico
 public:
-	Elettrodomestico_in_attesa(){}
-	~Elettrodomestico_in_attesa(){}
+	Elettrodomestico_in_attesa();
+	Elettrodomestico_in_attesa(Elettrodomestico modello);
+	Elettrodomestico_in_attesa(Elettrodomestico modello, int time);
+	~Elettrodomestico_in_attesa();
+	
+	int getTime();
+	Componente getModel();
+	int calculateTime();
+	
+	void setTime(int time);
+	void setModel(Elettrodomestico item);
 
+	
 private:
-	//Eredita i dati membro di Elettredomestico (come prima, non so se si fa così)
+	Elettrodomestico model;
 	int waiting_time;
 };
 
@@ -79,8 +103,17 @@ private:
 class Ordine			//Steven
 {
 public:
-	Ordine(){}
-	~Ordine(){}
+	Ordine();
+	Ordine(int time, int model, int num);
+	~Ordine();
+	
+	int getTimeStamp();
+	int getModelRequired();
+	int getQuantity();
+	
+	void setTimeStamp(int time);
+	void setModelRequired(int model);
+	void setQuantity(int num);
 
 private:
 	int time_stamp;
@@ -91,12 +124,22 @@ private:
 class Ordine_in_attesa : public Ordine			//Steven
 {
 public:
-	Ordine_in_attesa() {}
-	~Ordine_in_attesa() {}
+	Ordine_in_attesa();
+	Ordine_in_attesa(Ordine ord, double price, Elettrodomestico_in_attesa item);
+	Ordine_in_attesa(Ordine ord, double price, int time);
+	~Ordine_in_attesa();
+	
+	Ordine getOrder();
+	double getTotalPrice(Elettrodomestico item);
+	int getTime();
+	
+	void setOrder(Ordine ord);
+	void setTotalPrice(double price);
+	void setTime(int time);
 
 private:
 	int waiting_time;
-	double prezzo_totale;
+	double total_price;
 };
 
 
