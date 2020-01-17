@@ -138,6 +138,7 @@ public:
 	void setTime(int time);
 
 private:
+	Ordine order;
 	int waiting_time;
 	double total_price;
 };
