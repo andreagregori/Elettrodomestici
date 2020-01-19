@@ -60,7 +60,7 @@ public:
 	
 	int getId();
 	string getName();
-	Componente* getComponents();	//va bene il tipo restituito?
+	vector<Componente> getComponents();
 	double getPrice();
 	double calculatePrice(const vector<Componente> pezzi);
 	
@@ -79,7 +79,7 @@ private:
 
 
 class Elettrodomestico_in_attesa : public Elettrodomestico		//Steven
-{										//Classe che eredita da Elettrodomestico
+{									//Classe che eredita da Elettrodomestico
 public:
 	Elettrodomestico_in_attesa();
 	Elettrodomestico_in_attesa(Elettrodomestico modello);
