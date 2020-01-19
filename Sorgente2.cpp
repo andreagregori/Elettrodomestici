@@ -12,7 +12,7 @@ Elettrodomestico::Elettrodomestico()
 }
 
 //costruttore di un oggetto
-Elettrodomestico::Elettrodomestico(int num, string model, const vector<Componente> parts)		
+Elettrodomestico::Elettrodomestico(int num, string model, const vector<Componente>& parts)		
 {
 	id = num;
 	name = model;
@@ -21,7 +21,7 @@ Elettrodomestico::Elettrodomestico(int num, string model, const vector<Component
 }
 
 //costruttore di un oggetto
-Elettrodomestico::Elettrodomestico(int num, string model, const vector<Componente> parts, double prezzo)		
+Elettrodomestico::Elettrodomestico(int num, string model, const vector<Componente>& parts, double prezzo)		
 {
 	id = num;
 	name = model;
@@ -67,7 +67,7 @@ double Elettrodomestico::getPrice()
 void Elettrodomestico::setId(int num)
 {
 	if (num < 0)		//l'id deve essere un numero positivo
-		throw Invalid();
+		throw Invalid();		//SCRIVERE CLASSE INVALID?
 	id = num;
 }
 
@@ -78,7 +78,7 @@ void Elettrodomestico::setName(string model)
 }
 
 //modifica il vettore di componenti
-void Elettrodomestico::setComponents(const vector<Componente> parts)
+void Elettrodomestico::setComponents(const vector<Componente>& parts)
 {
 	delete[] components;
 	components = nullptr;		//serve questa riga o è una cazzata?
@@ -93,7 +93,7 @@ void Elettrodomestico::setPrice(double prezzo)
 }
 
 //calcola il prezzo del prodotto
-double Elettrodomestico::calculatePrice(const vector<Componente> pezzi)
+double Elettrodomestico::calculatePrice(const vector<Componente>& pezzi)
 {
 	double sum = 0;
 	for (int i = 0; i < pezzi.size(); i++)
@@ -165,7 +165,7 @@ void Elettrodomestico_in_attesa::setModel(Elettrodomestico item)
 int calculateTime()
 {
 	int max = 0;
-	/*array parti */ = model.getComponents();
+	vector<Componente> parti = model.getComponents();
 	for (int i = 0; i < parti.size(); i++)
 	{
 		if (parti[i].getDeliveryTime() > max)		//guardo il tempo di spedizione dei componenti
