@@ -1,5 +1,95 @@
 //Francesco Bortolotto
 //Ho modificato anche l'intestazione
+//Classe componente
+#include <iostream>
+#include <string>
+#include "Intestazione.h"
+
+using namespace std;
+
+Componente::Componente() {
+	id = 0;
+	name = "";
+	delivery_time = 0;
+	quantity = 0;
+}
+
+Componente::Componente(int ident,string nome, int time, int qta) {
+	id = ident;
+	name = nome;
+	delivery_time = time;
+	quantity = quantity;
+}
+
+void Componente::setId(int ident) {
+	id = ident;
+}
+
+void Componente::setName(string nome) {
+	name = nome;
+}
+
+void Componente::setDeliveryTime(int time) {
+	delivery_time = time;
+}
+
+void Componente::setQuantity(int qta) {
+	quantity = qta;
+}
+
+int Componente::getId() {
+	return id;
+}
+
+string Componente::getName() {
+	return name;
+}
+
+int Componente::getDeliveryTime() {
+	return delivery_time;
+}
+
+int Componente::getQuantity() {
+	return quantity;
+}
+
+void Componente::incrementQuantity(int qta_elett) {
+	quantity = quantity*qta_elett;
+}
+
+//classe componente_in_attesa
+#include <iostream>
+#include <string>
+#include "Intestazione.h"
+
+using namespace std;
+
+Componente_in_attesa::Componente_in_attesa(Componente component,int time) 
+{
+	componente = component;
+	time_stamp = time;
+	waiting_time = time + component.getDeliveryTime();
+}
+
+void Componente_in_attesa::setTimeStamp(int time) 
+{
+	int plus = time_stamp - time;
+	time_stamp = time;
+	waiting_time += plus;
+}
+
+int Componente_in_attesa::getTimeStamp()
+{
+	return time_stamp;
+}
+
+int Componente_in_attesa::getWaitingTime()
+{
+	return waiting_time;
+}
+
+
+//funzioni di gestione
 #include "Gestione.cpp"
 vector<Ordine> Gestione::ordini_evasi()
 {
