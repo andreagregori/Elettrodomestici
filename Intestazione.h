@@ -58,11 +58,6 @@ public:
 	Elettrodomestico(int num, string model, const vector<Componente> parts, double prezzo);
 	~Elettrodomestico();
 	
-	/*Elettrodomestico(const Elettrodomestico& el);
-	Elettrodomestico& operator=(const Elettrodomestico& el);
-	Elettrodomestico(Elettrodomestico&& el);
-	Elettrodomestico& operator=(Elettrodomestico&& el);*/
-	
 	int getId();
 	string getName();
 	vector<Componente> getComponents();
@@ -91,11 +86,6 @@ public:
 	Elettrodomestico_in_attesa(Elettrodomestico modello, int time);
 	~Elettrodomestico_in_attesa();
 	
-	/*Elettrodomestico_in_attesa(const Elettrodomestico_in_attesa& el);
-	Elettrodomestico_in_attesa& operator=(const Elettrodomestico_in_attesa& el);
-	Elettrodomestico_in_attesa(Elettrodomestico_in_attesa&& el);
-	Elettrodomestico_in_attesa& operator=(Elettrodomestico_in_attesa&& el);*/
-	
 	int getTime();
 	Componente getModel();
 	int calculateTime();
@@ -116,11 +106,6 @@ public:
 	Ordine();
 	Ordine(int time, int model, int num);
 	~Ordine();
-	
-	/*Ordine(const Ordine& or);
-	Ordine& operator=(const Ordine& or);
-	Ordine(Ordine&& or);
-	Ordine& operator=(Ordine&& or);*/
 	
 	int getTimeStamp();
 	int getModelRequired();
@@ -143,11 +128,6 @@ public:
 	Ordine_in_attesa(Ordine ord, double price, Elettrodomestico_in_attesa item);
 	Ordine_in_attesa(Ordine ord, double price, int time);
 	~Ordine_in_attesa();
-	
-	/*Ordine_in_attesa(const Ordine_in_attesa& or);
-	Ordine_in_attesa& operator=(const Ordine_in_attesa& or);
-	Ordine_in_attesa(Ordine_in_attesa&& or);
-	Ordin_in_attesa& operator=(Ordine_in_attesa&& or);*/
 	
 	Ordine getOrder();
 	double getTotalPrice(Elettrodomestico item);
