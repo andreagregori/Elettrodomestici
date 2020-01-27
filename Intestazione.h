@@ -55,15 +55,11 @@ private:
 class Elettrodomestico					//Steven
 {
 public:
+	class Invalid {};
 	Elettrodomestico();
 	Elettrodomestico(int num, string model, const vector<Componente>& parts);
 	Elettrodomestico(int num, string model, const vector<Componente>& parts, double prezzo);
 	~Elettrodomestico();
-
-	/*Elettrodomestico(const Elettrodomestico& el);
-	Elettrodomestico& operator=(const Elettrodomestico& el);
-	Elettrodomestico(Elettrodomestico&& el);
-	Elettrodomestico& operator=(Elettrodomestico&& el);*/
 
 	int getId();
 	string getName();
@@ -84,6 +80,7 @@ private:
 	vector<Componente> components;
 };
 
+ostream& operator<<(ostream& os, const Elettrodomestico& el);
 
 class Elettrodomestico_in_attesa : public Elettrodomestico		//Steven
 {									//Classe che eredita da Elettrodomestico
@@ -91,11 +88,6 @@ public:
 	Elettrodomestico_in_attesa();
 	Elettrodomestico_in_attesa(Elettrodomestico modello,int month);
 	~Elettrodomestico_in_attesa();
-
-	/*Elettrodomestico_in_attesa(const Elettrodomestico_in_attesa& el);
-	Elettrodomestico_in_attesa& operator=(const Elettrodomestico_in_attesa& el);
-	Elettrodomestico_in_attesa(Elettrodomestico_in_attesa&& el);
-	Elettrodomestico_in_attesa& operator=(Elettrodomestico_in_attesa&& el);*/
 
 	int getTime();
 	Elettrodomestico getModel();
@@ -110,6 +102,8 @@ private:
 	int waiting_time;
 };
 
+ostream& operator<<(ostream& os, const Elettrodomestico_in_attesa& el);
+
 
 class Ordine			//Steven
 {
@@ -118,10 +112,6 @@ public:
 	Ordine(int time, int model, int num);
 	~Ordine();
 
-	/*Ordine(const Ordine& or);
-	Ordine& operator=(const Ordine& or);
-	Ordine(Ordine&& or);
-	Ordine& operator=(Ordine&& or);*/
 	bool operator<(const Ordine& ord) const;
 
 	int getTimeStamp();
@@ -139,6 +129,9 @@ private:
 	int quantity;
 };
 
+ostream& operator<<(ostream& os, const Ordine& ord);
+	
+
 class Ordine_in_attesa : public Ordine			//Steven
 {
 public:
@@ -146,11 +139,6 @@ public:
 	Ordine_in_attesa(Ordine ord, int month, Elettrodomestico_in_attesa item);
 	Ordine_in_attesa(Ordine ord, double price, int time);
 	~Ordine_in_attesa();
-
-	/*Ordine_in_attesa(const Ordine_in_attesa& or);
-	Ordine_in_attesa& operator=(const Ordine_in_attesa& or);
-	Ordine_in_attesa(Ordine_in_attesa&& or);
-	Ordin_in_attesa& operator=(Ordine_in_attesa&& or);*/
 
 	Ordine getOrder();
 	double getTotalPrice();
@@ -166,7 +154,9 @@ private:
 	double total_price;
 };
 
-
+ostream& operator<<(ostream& os, const Ordine_in_attesa& ord);
+	
+	
 class Gestione			//Andrea
 {
 public:
