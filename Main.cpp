@@ -1,9 +1,16 @@
-// Main.cpp : Questo file contiene la funzione 'main', in cui inizia e termina l'esecuzione del programma.
+// Main
 //
 
 #include <iostream>
+#include "Intestazione.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	Gestione g{};
+	//g.inizializza_comp();
+	//g.inizializza_elet();
+	g.inizializza_orders();
+	g.sort_orders();
+
+
 }
