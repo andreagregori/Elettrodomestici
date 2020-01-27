@@ -64,7 +64,7 @@ double Elettrodomestico::getPrice()
 void Elettrodomestico::setId(int num)
 {
 	if (num < 0)		//l'id deve essere un numero positivo
-		cout <<"throw Invalid()";		//SCRIVERE CLASSE INVALID?
+		throw Invalid();		
 	id = num;
 }
 
@@ -96,7 +96,14 @@ double Elettrodomestico::calculatePrice(vector<Componente>& pezzi)
 	return sum;
 }
 
-
+ostream& operator<<(ostream& os, const Elettrodomestico& el)
+{
+	os << el.getId() << " " << el.getName() << " " << el.getPrice() << " ";
+	vector<Componente> v = el.getComponents();
+	for (int i = 0; i < v.size(); ++i)
+		os << v[i] << " ";
+	return os;
+}
 
 
 
@@ -164,8 +171,11 @@ int Elettrodomestico_in_attesa::calculateTime(int month)
 	return max + 1;									//... e il mese per la produzione
 }
 
-
-
+ostream& operator<<(ostream& os, const Elettrodomestico_in_attesa& el)
+{
+	os << el.getTime() << " " << el.getModel();
+	return os;
+}
 
 
 
@@ -232,7 +242,7 @@ void Ordine::setQuantity(int num)
 	quantity = num;
 }
 
-bool Ordine::operator<(const Ordine& ord) const {	// Da passare a Steven
+bool Ordine::operator<(const Ordine& ord) const {
 	return (time_stamp < ord.time_stamp);
 }
 
@@ -241,6 +251,11 @@ int Ordine::tempo_necessario(Elettrodomestico e)
 	return Elettrodomestico_in_attesa(e, 0).calculateTime(0);
 }
 
+ostream& operator<<(ostream& os, const Ordine& ord)
+{
+	os << ord.getTimeStamp() << " " << ord.getModelRequired() << " " << ord.getQuantity();
+	return os;
+}
 
 
 
@@ -313,4 +328,10 @@ void Ordine_in_attesa::setTotalPrice(double price)
 void Ordine_in_attesa::setTime(int time)
 {
 	waiting_time = time;
+}
+
+ostream& operator<<(ostream& os, const Ordine_in_attesa& ord)
+{
+	os << ord.getOrder() << " " << ord.getTotalPrice() << " " << ord.getTime(); 
+	return os;
 }
