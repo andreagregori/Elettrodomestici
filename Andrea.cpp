@@ -1,4 +1,4 @@
-//
+//Andrea Gregori
 
 #include <iostream>
 #include <fstream>
@@ -9,10 +9,10 @@
 using namespace std;
 
 Gestione::Gestione() {
-	month = 1;
-	//inizializza_comp();
-	//inizializza_elet();
-	//inizializza_orders();
+	month = 0;
+	inizializza_comp();
+	inizializza_elet();
+	inizializza_orders();
 }
 
 //Funzione che legge il file components_info.dat e carica i vari componenti in comp_disponibili
@@ -94,7 +94,8 @@ void Gestione::inizializza_elet() {
 				cout << "quantità: " << quantità << "\n\n";
 				if (is_componente(id_comp))
 				{
-					Componente c(id_comp, nome, comp_disponibili[getComponente_disponibile(id_comp)].getDeliveryTime(), quantità,0,0,0);
+					double* temp = comp_disponibili[getComponente_disponibile(id_comp)].getPrices();
+					Componente c(id_comp, nome, comp_disponibili[getComponente_disponibile(id_comp)].getDeliveryTime(), quantità, temp[0],temp[1], temp[2]);
 					comp.push_back(c);
 				}
 			}
@@ -147,16 +148,18 @@ bool Gestione::is_componente(int id) {
 bool Gestione::is_elettrodomestico(int id) {
 	for (int i = 0; i < elet_disponibili.size(); i++)
 	{
-		if (true /*id == elet_disponibili[i].getId()*/)
+		if (true /*id == elet_disponibili[i].getId()*/)			//!!!!!!!!!!!!!!!!!!!
 			return true;
 	}
 	return false;
 }
 
-//Funzione che ordina per time_stamp crescenti il vettore orders
-void Gestione::sort_orders() {
-	sort(orders.begin(), orders.end());
-}
+
+
+
+////////////////////////////////////
+//DA PASSARE NEL PROGETTO FINALE////
+////////////////////////////////////
 
 //Funzione che torna il componente disponibile con id richiesto
 int Gestione::getComponente_disponibile(int id_comp) {
@@ -170,16 +173,58 @@ int Gestione::getComponente_disponibile(int id_comp) {
 	return -1;
 }
 
-//Funzione che trova l'ordine con il costo di produzione più basso (per mese)
-void Gestione::next_order() {
+//Funzione che ritora il mese corrente incrementato
+int Gestione::next_month() {
+	return month = month + 1;
+}
+
+int Gestione::getMonth() {
+	return month;
+}
+
+//Funzione che ordina per time_stamp crescenti il vettore orders
+void Gestione::sort_orders() {
+	sort(orders.begin(), orders.end());
+}
+
+//Funzione che ordina per time_stamp crescenti il vettore orders (SE NON FUNZIONA QUELLA SOPRA)
+/*void Gestione::sort_order() {
+	int min;
+	Ordine temp;
+
+	//Selection sort
 	for (int i = 0; i < orders.size(); i++)
 	{
+		min = i;
+		for (int j = i + 1; j < orders.size(); j++)
+		{
+			if (orders[j] < orders[min])
+				min = j;
+		}
+		temp = orders[min];
+		orders[min] = orders[i];
+		orders[i] = temp;
+	}
+}*/
 
+//Funzione che stampa elet_disponibili
+void Gestione::stampa_elet_disponibili() {
+	cout << "ELETTRODOMESTICI DISPONIBILI\n\n";
+	for (int i = 0; i < elet_disponibili.size(); i++)
+	{
+		cout << i + 1 << ") " << elet_disponibili[i];
 	}
 }
 
 
-
+//Funzione che stampa comp_disponibili
+void Gestione::stampa_comp_disponibili() {
+	cout << "COMPONENTI DISPONIBILI\n\n";
+	for (int i = 0; i < comp_disponibili.size(); i++)
+	{
+		cout << i + 1 << ") " << comp_disponibili[i];
+	}
+}
 
 
 
