@@ -286,9 +286,9 @@ Ordine Ordine_in_attesa::getOrder()
 }
 
 //restituisce quanti soldi guadagno da questo ordine
-double Ordine_in_attesa::getTotalPrice(Elettrodomestico item)
+double Ordine_in_attesa::getTotalPrice()
 {
-	return getQuantity() * item.getPrice();
+	return total_price;
 }
 
 //restituisce il mese in cui verrà venduto l'ordine

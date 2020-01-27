@@ -153,7 +153,7 @@ public:
 	Ordin_in_attesa& operator=(Ordine_in_attesa&& or);*/
 
 	Ordine getOrder();
-	double getTotalPrice(Elettrodomestico item);
+	double getTotalPrice();
 	int getTime();
 
 	void setOrder(Ordine ord);
@@ -185,6 +185,8 @@ public:
 	Elettrodomestico cercaElettrodomestico(int id);
 	void aggiungiComponenti(int qta, Componente component);
 	void aggiungiElettrodomestici(int qta, Elettrodomestico elett);
+	void stampa_elet_disponibili();
+	void stampa_comp_disponibili();
 
 	int getComponente_disponibile(int id_comp);
 
