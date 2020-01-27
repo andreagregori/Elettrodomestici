@@ -1,5 +1,3 @@
-//Andrea Gregori
-
 #include <iostream>
 #include <fstream>
 #include <algorithm>
@@ -13,6 +11,8 @@ Gestione::Gestione() {
 	inizializza_comp();
 	inizializza_elet();
 	inizializza_orders();
+	inizializza_magazzino();
+	sort_orders();
 }
 
 //Funzione che legge il file components_info.dat e carica i vari componenti in comp_disponibili
@@ -22,26 +22,27 @@ void Gestione::inizializza_comp() {
 	{
 		while (components.good())
 		{
-			cout << "COMPONENTE\n";
+			//cout << "COMPONENTE\n";
 			int id;
 			components >> id;
-			cout << "id: " << id << "\n";
+			//cout << "id: " << id << "\n";
 			components.clear();
 			string nome;
 			components >> nome;
-			cout << "nome: " << nome << "\n";
+			//cout << "nome: " << nome << "\n";
 			int mese;
 			components >> mese;
-			cout << "mese: " << mese << "\n";
+			//cout << "mese: " << mese << "\n";
 			double prezzo[3];
 			for (int i = 0; i < 3; i++)
 			{
 				components >> prezzo[i];
-				cout << "prezzo " << i + 1 << " :" << prezzo[i] << "\n";
+				//cout << "prezzo " << i + 1 << " :" << prezzo[i] << "\n";
 			}
-			cout << "\n";
-			Componente c(id, nome, mese, 0,prezzo[0], prezzo[1], prezzo[2]);
+			//cout << "\n";
+			Componente c(id, nome, mese, 0, prezzo[0], prezzo[1], prezzo[2]);
 			comp_disponibili.push_back(c);
+			//cout<<"Aggiunto comp";
 		}
 		components.close();
 	}
@@ -57,7 +58,7 @@ void Gestione::inizializza_elet() {
 		while (getline(models, line))		//Ciclo che legge riga per riga e salva il contenuto in line
 		{
 			files.push_back(line);			//Salvo i nomi dei file
-			cout << line << "\n";
+			//cout << line << "\n";
 		}
 		models.close();
 	}
@@ -68,38 +69,38 @@ void Gestione::inizializza_elet() {
 		if (modello.is_open())
 		{
 			//Leggo le info del modello
-			cout << files[i] << "\n";
+			//cout << files[i] << "\n";
 			int id_eletr;
 			modello >> id_eletr;			//Scrive in id_eletr il primo intero (model id)
-			cout << "id: " << id_eletr << "\n";
+			//cout << "id: " << id_eletr << "\n";
 			string nome;
 			modello >> nome;				//Scrive in nome la seconda stringa (model name)
-			cout << "nome: " << nome << "\n";
+			//cout << "nome: " << nome << "\n";
 			double prezzo;
 			modello >> prezzo;
 
 			//Comincio a leggere i componenti
-			cout << "COMPONENTI\n";
+			//cout << "COMPONENTI\n";
 			vector<Componente> comp;
 			while (modello.good())
 			{
 				int id_comp;
 				modello >> id_comp;
-				cout << "id_comp: " << id_comp << "\n";
+				//cout << "id_comp: " << id_comp << "\n";
 				string nome_comp;
 				modello >> nome_comp;
-				cout << "nome_comp: " << nome_comp << "\n";
+				//cout << "nome_comp: " << nome_comp << "\n";
 				int quantità;
 				modello >> quantità;
-				cout << "quantità: " << quantità << "\n\n";
+				//cout << "quantità: " << quantità << "\n\n";
 				if (is_componente(id_comp))
 				{
 					double* temp = comp_disponibili[getComponente_disponibile(id_comp)].getPrices();
-					Componente c(id_comp, nome, comp_disponibili[getComponente_disponibile(id_comp)].getDeliveryTime(), quantità, temp[0],temp[1], temp[2]);
+					Componente c(id_comp, nome_comp, comp_disponibili[getComponente_disponibile(id_comp)].getDeliveryTime(), quantità, temp[0], temp[1], temp[2]);
 					comp.push_back(c);
 				}
 			}
-			elet_disponibili.push_back(Elettrodomestico(id_eletr, nome, comp));
+			elet_disponibili.push_back(Elettrodomestico(id_eletr, nome, comp,prezzo));
 
 			modello.close();
 		}
@@ -111,20 +112,21 @@ void Gestione::inizializza_orders() {
 	ifstream ordini("orders.dat");
 	if (ordini.is_open())
 	{
-		double cassa;
-		ordini >> cassa;
-		cout << "cassa: " << cassa << "\n\n";
+		double c;
+		ordini >> c;
+		cassa = c;
+		//cout << "cassa: " << cassa << "\n\n";
 		while (ordini.good())
 		{
 			int time_stamp;
 			ordini >> time_stamp;
-			cout << "time_stamp: " << time_stamp << "\n";
+			//cout << "time_stamp: " << time_stamp << "\n";
 			int model_id;
 			ordini >> model_id;
-			cout << "model_id: " << model_id << "\n";
+			//cout << "model_id: " << model_id << "\n";
 			int qta;
 			ordini >> qta;
-			cout << "qta: " << qta << "\n";
+			//cout << "qta: " << qta << "\n";
 			if (is_elettrodomestico(model_id))
 			{
 				orders.push_back(Ordine(time_stamp, model_id, qta));
@@ -133,6 +135,10 @@ void Gestione::inizializza_orders() {
 		ordini.close();
 	}
 }
+
+void Gestione::inizializza_magazzino() {
+	magazzino = comp_disponibili;
+};
 
 //Funzione che cerca se il componente passato esiste
 bool Gestione::is_componente(int id) {
@@ -162,7 +168,7 @@ bool Gestione::is_elettrodomestico(int id) {
 ////////////////////////////////////
 
 //Funzione che torna il componente disponibile con id richiesto
-int Gestione::getComponente_disponibile(int id_comp) {
+int Gestione::getComponente_disponibile(int id_comp) const {
 	for (int i = 0; i < comp_disponibili.size(); i++)
 	{
 		if (id_comp == comp_disponibili[i].getId())
@@ -175,10 +181,16 @@ int Gestione::getComponente_disponibile(int id_comp) {
 
 //Funzione che ritora il mese corrente incrementato
 int Gestione::next_month() {
+	ordina_componenti();
+	componenti_arrivati();
+	ordini_evasi();
+	stampa_c1();
+	stampa_magazzino();
+
 	return month = month + 1;
 }
 
-int Gestione::getMonth() {
+int Gestione::getMonth() const {
 	return month;
 }
 
@@ -191,7 +203,6 @@ void Gestione::sort_orders() {
 /*void Gestione::sort_order() {
 	int min;
 	Ordine temp;
-
 	//Selection sort
 	for (int i = 0; i < orders.size(); i++)
 	{
@@ -212,7 +223,7 @@ void Gestione::stampa_elet_disponibili() {
 	cout << "ELETTRODOMESTICI DISPONIBILI\n\n";
 	for (int i = 0; i < elet_disponibili.size(); i++)
 	{
-		cout << i + 1 << ") " << elet_disponibili[i];
+		cout << i + 1 << ") " << elet_disponibili[i]<<"\n";
 	}
 }
 
@@ -222,9 +233,35 @@ void Gestione::stampa_comp_disponibili() {
 	cout << "COMPONENTI DISPONIBILI\n\n";
 	for (int i = 0; i < comp_disponibili.size(); i++)
 	{
-		cout << i + 1 << ") " << comp_disponibili[i];
+		cout << i + 1 << ") " << comp_disponibili[i] << "\n";
 	}
 }
+
+void Gestione::stampa_ordini() {
+	cout << "ORDINI\n\n";
+	for (int i = 0; i < orders.size(); i++)
+	{
+		cout << i + 1 << ") " << orders[i] << "\n";
+	}
+}
+
+void Gestione::stampa_c1() {
+	cout << "COMPONENTI ORDINATI IN QUESTO MESE: \n\n";
+	for (int i = 0; i < parts.size(); i++)
+	{
+		if(parts[i].getTimeStamp() == month)
+			cout << i + 1 << ") " << parts[i] << "\n";
+	}
+}
+
+void Gestione::stampa_magazzino() {
+	cout << "COMPONENTI IN MAGAZZINO: \n\n";
+	for (int i = 0; i < magazzino.size(); i++)
+	{
+			cout << i + 1 << ") " << magazzino[i] << "\n";
+	}
+}
+
 
 
 

@@ -16,7 +16,7 @@ Elettrodomestico::Elettrodomestico(int num, string model, const vector<Component
 	id = num;
 	name = model;
 	components = parts;
-	price = calculatePrice(components);
+	price = calculatePrice();
 }
 
 //costruttore di un oggetto
@@ -32,30 +32,30 @@ Elettrodomestico::Elettrodomestico(int num, string model, const vector<Component
 Elettrodomestico::~Elettrodomestico()
 {
 	id = 0;
-	name = "";	
+	name = "";
 	price = 0;
 }
 
 //restituisce l'id
-int Elettrodomestico::getId()
+int Elettrodomestico::getId() const
 {
 	return id;
 }
 
 //restituisce il nome del modello
-string Elettrodomestico::getName()
+string Elettrodomestico::getName() const
 {
 	return name;
 }
 
 //restituisce un vettore di componenti
-vector<Componente> Elettrodomestico::getComponents()
+vector<Componente> Elettrodomestico::getComponents() const
 {
 	return components;
 }
 
 //restituisce il prezzo del prodotto
-double Elettrodomestico::getPrice()
+double Elettrodomestico::getPrice() const
 {
 	return price;
 }
@@ -64,7 +64,7 @@ double Elettrodomestico::getPrice()
 void Elettrodomestico::setId(int num)
 {
 	if (num < 0)		//l'id deve essere un numero positivo
-		throw Invalid();		
+		throw Invalid();
 	id = num;
 }
 
@@ -88,20 +88,21 @@ void Elettrodomestico::setPrice(double prezzo)
 }
 
 //calcola il prezzo del prodotto
-double Elettrodomestico::calculatePrice(vector<Componente>& pezzi)
+double Elettrodomestico::calculatePrice()
 {
 	double sum = 0;
-	for (int i = 0; i < pezzi.size(); i++)
-		sum += pezzi[i].getPrice(pezzi[i].getQuantity()) * pezzi[i].getQuantity();
+	for (int i = 0; i < components.size(); i++)
+		sum += components[i].getPrice(components[i].getQuantity()) * components[i].getQuantity();
 	return sum;
 }
 
 ostream& operator<<(ostream& os, const Elettrodomestico& el)
 {
-	os << el.getId() << " " << el.getName() << " " << el.getPrice() << " ";
+	os <<"ID:" << el.getId() << "  NOME:" << el.getName() << " PREZZO:" << el.getPrice() << " euro  COMPONENTI(";
 	vector<Componente> v = el.getComponents();
 	for (int i = 0; i < v.size(); ++i)
-		os << v[i] << " ";
+		os << v[i] << ", ";
+	os << ")";
 	return os;
 }
 
@@ -119,7 +120,7 @@ Elettrodomestico_in_attesa::Elettrodomestico_in_attesa()
 }
 
 //costruttore oggetto
-Elettrodomestico_in_attesa::Elettrodomestico_in_attesa(Elettrodomestico modello,int month)
+Elettrodomestico_in_attesa::Elettrodomestico_in_attesa(Elettrodomestico modello, int month)
 {
 	model = modello;
 	waiting_time = calculateTime(month);
@@ -134,13 +135,13 @@ Elettrodomestico_in_attesa::~Elettrodomestico_in_attesa()
 
 
 //restituisce il tempo di attesa
-int Elettrodomestico_in_attesa::getTime()
+int Elettrodomestico_in_attesa::getTime() const
 {
 	return waiting_time;
 }
 
 //restituisce il modello in attesa
-Elettrodomestico Elettrodomestico_in_attesa::getModel()
+Elettrodomestico Elettrodomestico_in_attesa::getModel() const
 {
 	return model;
 }
@@ -173,7 +174,7 @@ int Elettrodomestico_in_attesa::calculateTime(int month)
 
 ostream& operator<<(ostream& os, const Elettrodomestico_in_attesa& el)
 {
-	os << el.getTime() << " " << el.getModel();
+	os << el.getModel();
 	return os;
 }
 
@@ -207,19 +208,19 @@ Ordine::~Ordine()
 }
 
 //restituisce il mese dell'ordine
-int Ordine::getTimeStamp()
+int Ordine::getTimeStamp() const
 {
 	return time_stamp;
 }
 
 //restituisce il modello
-int Ordine::getModelRequired()
+int Ordine::getModelRequired() const
 {
 	return model_required;
 }
 
 //restituisce la quantità di modelli
-int Ordine::getQuantity()
+int Ordine::getQuantity() const
 {
 	return quantity;
 }
@@ -253,7 +254,7 @@ int Ordine::tempo_necessario(Elettrodomestico e)
 
 ostream& operator<<(ostream& os, const Ordine& ord)
 {
-	os << ord.getTimeStamp() << " " << ord.getModelRequired() << " " << ord.getQuantity();
+	os <<"TIMESTAMP:" << ord.getTimeStamp() << " ID:" << ord.getModelRequired() << " QTA:" << ord.getQuantity();
 	return os;
 }
 
@@ -295,19 +296,19 @@ Ordine_in_attesa::~Ordine_in_attesa()
 }
 
 //restituisce l'oggetto ordine
-Ordine Ordine_in_attesa::getOrder()
+Ordine Ordine_in_attesa::getOrder() const
 {
 	return order;
 }
 
 //restituisce quanti soldi guadagno da questo ordine
-double Ordine_in_attesa::getTotalPrice()
+double Ordine_in_attesa::getTotalPrice() const
 {
 	return total_price;
 }
 
 //restituisce il mese in cui verrà venduto l'ordine
-int Ordine_in_attesa::getTime()
+int Ordine_in_attesa::getTime() const
 {
 	return waiting_time;
 }
@@ -332,6 +333,6 @@ void Ordine_in_attesa::setTime(int time)
 
 ostream& operator<<(ostream& os, const Ordine_in_attesa& ord)
 {
-	os << ord.getOrder() << " " << ord.getTotalPrice() << " " << ord.getTime(); 
+	os << ord.getOrder();
 	return os;
 }

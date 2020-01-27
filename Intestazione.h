@@ -10,18 +10,19 @@ class Componente					//Francesco
 {
 public:
 	Componente();
-	Componente(int id, string name, int time, int quantity,double prezzo1, double prezzo2, double prezzo3);
+	Componente(int id, string name, int time, int quantity, double prezzo1, double prezzo2, double prezzo3);
 
 	void setId(int id);
 	void setName(string name);
 	void setDeliveryTime(int time);
 	void setQuantity(int qta);
 
-	int getId();
-	string getName();
-	int getDeliveryTime();
-	int getQuantity();
-	double getPrice(int qta);
+	int getId() const;
+	string getName() const;
+	int getDeliveryTime() const;
+	int getQuantity() const;
+	double getPrice(int qta) const;
+	double* getPrices();
 
 	void incrementQuantity(int qta_elett);
 	void eliminaComponente(int qta);
@@ -34,6 +35,7 @@ private:
 	double prezzi[3];
 };
 
+ostream& operator<< (ostream& os, const Componente& c);
 
 class Componente_in_attesa : public Componente		//Francesco
 {									//Classe che Eredita da Componente
@@ -41,8 +43,10 @@ public:
 	Componente_in_attesa(Componente component, int time_stamp);
 
 	void setTimeStamp(int time);
-	int getTimeStamp();
-	int getWaitingTime();
+	int getTimeStamp() const;
+	int getWaitingTime() const;
+	Componente getComponente() const;
+	int getId() const;
 
 private:
 	Componente componente;
@@ -50,7 +54,7 @@ private:
 	int time_stamp;
 };
 
-
+ostream& operator<< (ostream& os, const Componente_in_attesa& c);
 
 class Elettrodomestico					//Steven
 {
@@ -61,11 +65,11 @@ public:
 	Elettrodomestico(int num, string model, const vector<Componente>& parts, double prezzo);
 	~Elettrodomestico();
 
-	int getId();
-	string getName();
-	vector<Componente> getComponents();
-	double getPrice();
-	double calculatePrice(vector<Componente>& pezzi);
+	int getId() const;
+	string getName() const;
+	vector<Componente> getComponents() const;
+	double getPrice() const;
+	double calculatePrice();
 
 	void setId(int num);
 	void setName(string model);
@@ -86,11 +90,11 @@ class Elettrodomestico_in_attesa : public Elettrodomestico		//Steven
 {									//Classe che eredita da Elettrodomestico
 public:
 	Elettrodomestico_in_attesa();
-	Elettrodomestico_in_attesa(Elettrodomestico modello,int month);
+	Elettrodomestico_in_attesa(Elettrodomestico modello, int month);
 	~Elettrodomestico_in_attesa();
 
-	int getTime();
-	Elettrodomestico getModel();
+	int getTime() const;
+	Elettrodomestico getModel() const;
 	int calculateTime(int month);
 
 	void setTime(int time);
@@ -114,9 +118,9 @@ public:
 
 	bool operator<(const Ordine& ord) const;
 
-	int getTimeStamp();
-	int getModelRequired();
-	int getQuantity();
+	int getTimeStamp() const;
+	int getModelRequired() const;
+	int getQuantity() const;
 
 	void setTimeStamp(int time);
 	void setModelRequired(int model);
@@ -130,7 +134,7 @@ private:
 };
 
 ostream& operator<<(ostream& os, const Ordine& ord);
-	
+
 
 class Ordine_in_attesa : public Ordine			//Steven
 {
@@ -140,9 +144,9 @@ public:
 	Ordine_in_attesa(Ordine ord, double price, int time);
 	~Ordine_in_attesa();
 
-	Ordine getOrder();
-	double getTotalPrice();
-	int getTime();
+	Ordine getOrder() const;
+	double getTotalPrice() const;
+	int getTime() const;
 
 	void setOrder(Ordine ord);
 	void setTotalPrice(double price);
@@ -155,8 +159,8 @@ private:
 };
 
 ostream& operator<<(ostream& os, const Ordine_in_attesa& ord);
-	
-	
+
+
 class Gestione			//Andrea
 {
 public:
@@ -166,8 +170,11 @@ public:
 	void inizializza_comp();
 	void inizializza_elet();
 	void inizializza_orders();
+	void inizializza_magazzino();
 	void sort_orders();
 	void next_order();
+	int next_month();
+	int getMonth() const;
 
 	vector<Ordine> ordini_evasi();
 
@@ -177,8 +184,11 @@ public:
 	void aggiungiElettrodomestici(int qta, Elettrodomestico elett);
 	void stampa_elet_disponibili();
 	void stampa_comp_disponibili();
+	void stampa_ordini();
+	void stampa_c1();
+	void stampa_magazzino();
 
-	int getComponente_disponibile(int id_comp);
+	int getComponente_disponibile(int id_comp) const;
 
 	bool is_componente(int id);
 	bool is_elettrodomestico(int id);
@@ -197,9 +207,7 @@ private:
 	void eliminaComponenti(Componente compon);
 	void componenti_venduti();
 	void elettrodomestici_venduti();
-	void aggiungiComponenti(Componente com);
+	void aggiungiComponenti(Componente_in_attesa com);
 	void componenti_arrivati();
 
 };
-
-//Eventuali helper function e overload operatori
