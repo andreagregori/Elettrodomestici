@@ -99,13 +99,13 @@ void Gestione::inizializza_elet() {
 				string nome_comp;
 				modello >> nome_comp;
 				//cout << "nome_comp: " << nome_comp << "\n";
-				int quantità;
-				modello >> quantità;
-				//cout << "quantità: " << quantità << "\n\n";
+				int quantity;
+				modello >> quantity;
+				//cout << "quantitÃ : " << quantitÃ  << "\n\n";
 				if (is_componente(id_comp))
 				{
 					double* temp = comp_disponibili[getComponente_disponibile(id_comp)].getPrices();
-					Componente c(id_comp, nome_comp, comp_disponibili[getComponente_disponibile(id_comp)].getDeliveryTime(), quantità, temp[0], temp[1], temp[2]);
+					Componente c(id_comp, nome_comp, comp_disponibili[getComponente_disponibile(id_comp)].getDeliveryTime(), quantity, temp[0], temp[1], temp[2]);
 					comp.push_back(c);
 				}
 			}
