@@ -1,3 +1,5 @@
+//@autor FRANCESCO BORTOLOTTO
+
 #ifndef COMPONENTE_IN_ATTESA_H
 #define COMPONENTE_IN_ATTESA_H
 
@@ -8,9 +10,10 @@
 
 using namespace std;
 
-class Componente_in_attesa : public Componente		//Francesco
+class Componente_in_attesa : public Componente
 {									//Classe che Eredita da Componente
 public:
+	Componente_in_attesa();
 	Componente_in_attesa(Componente component, int time_stamp);
 
 	void setId(int id);

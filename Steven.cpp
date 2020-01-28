@@ -1,4 +1,5 @@
-//Steven Binotto
+//@autor STEVEN BINOTTO
+
 #include "Elettrodomestico.h"
 #include "Elettrodomestico_in_attesa.h"
 #include "Ordine.h"

@@ -1,3 +1,5 @@
+//@autor ANDREA GREGORI / FRANCESCO BORTOLOTTO
+
 #ifndef GESTIONE_H
 #define GESTIONE_H
 
@@ -25,21 +27,16 @@ public:
 	void inizializza_orders();
 	void inizializza_magazzino();
 	void sort_orders();
-	void next_order();
 	int next_month();
 	int getMonth() const;
+	
 
-	vector<Ordine> ordini_evasi();
-
-	void ordina_componenti();
-	Elettrodomestico cercaElettrodomestico(int id);
-	void aggiungiComponenti(int qta, Componente component);
-	void aggiungiElettrodomestici(int qta, Elettrodomestico elett);
 	void stampa_elet_disponibili();
 	void stampa_comp_disponibili();
 	void stampa_ordini();
 	void stampa_c1();
 	void stampa_magazzino();
+	bool finito();
 
 	int getComponente_disponibile(int id_comp) const;
 
@@ -57,11 +54,16 @@ private:
 	vector<Elettrodomestico> elet_disponibili;
 	vector<Componente> comp_disponibili;
 
+	//Funzioni interne
+	Elettrodomestico cercaElettrodomestico(int id);
+	void aggiungiComponenti(int qta, Componente component);
+	void aggiungiElettrodomestici(int qta, Elettrodomestico elett);
 	void eliminaComponenti(Componente compon);
-	void componenti_venduti();
 	void elettrodomestici_venduti();
 	void aggiungiComponenti(Componente_in_attesa com);
 	void componenti_arrivati();
+	void ordini_evasi();
+	void ordina_componenti();
 
 };
 

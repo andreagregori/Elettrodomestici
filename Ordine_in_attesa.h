@@ -1,3 +1,5 @@
+//@autor STEVEN BINOTTO
+
 #ifndef ORDINE_IN_ATTESA_H
 #define ORDINE_IN_ATTESA_H
 

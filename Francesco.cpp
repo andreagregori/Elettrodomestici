@@ -1,4 +1,4 @@
-//Francesco Bortolotto
+//@autor FRANCESCO BORTOLOTTO
 
 //Classe componente
 #include <iostream>
@@ -13,6 +13,7 @@
 
 using namespace std;
 
+//Costruttore vuoto
 Componente::Componente() {
 	id = 0;
 	name = "";
@@ -20,6 +21,7 @@ Componente::Componente() {
 	quantity = 0;
 }
 
+//Costruttore
 Componente::Componente(int ident, string nome, int time, int qta, double prezzo1, double prezzo2, double prezzo3) {
 	id = ident;
 	name = nome;
@@ -55,6 +57,7 @@ string Componente::getName() const {
 	return name;
 }
 
+//restituisce il prezzo del componente in base alla quantità necessaria
 double Componente::getPrice(int qta) const {
 	if (qta < 11)
 		return prezzi[0];
@@ -80,16 +83,19 @@ int Componente::getQuantity() const {
 	return quantity;
 }
 
+//modifica la qtà del componente
 void Componente::incrementQuantity(int qta_elett) {
 	quantity = quantity * qta_elett;
 }
 
+//elimina componente ovvero rimuove 1 da qta
 void Componente::eliminaComponente(int qta)
 {
 		quantity -= qta;
 		return;
 }
 
+//Overload di <<
 ostream& operator<< (ostream& os, const Componente& c) {
 	os <<"NOME:"<< c.getName() << " QTA:" << c.getQuantity();
 	return os;
@@ -97,6 +103,13 @@ ostream& operator<< (ostream& os, const Componente& c) {
 
 //classe componente_in_attesa
 
+//Costruttore vuoto
+Componente_in_attesa::Componente_in_attesa()
+{
+	time_stamp = 0;
+	waiting_time = 0;
+}
+//Costruttore
 Componente_in_attesa::Componente_in_attesa(Componente component, int time)
 {
 	componente = component;
@@ -104,6 +117,7 @@ Componente_in_attesa::Componente_in_attesa(Componente component, int time)
 	waiting_time = time + component.getDeliveryTime();
 }
 
+//SET E GET DELLE VARIABILI
 void Componente_in_attesa::setTimeStamp(int time)
 {
 	int plus = time_stamp - time;
@@ -193,28 +207,32 @@ ostream& operator<< (ostream& os, const Componente_in_attesa& c) {
 	return os;
 }
 
-//funzioni di gestione
-vector<Ordine> Gestione::ordini_evasi()
+
+
+//FUNZIONI UTILI DI GESTIONE
+
+//Funzione che trpvati gli ordini evasi li cancella dal vettore
+void Gestione::ordini_evasi()
 {
-	vector<Ordine> tmp;
 	cout << "ORDINI EVASI IN QUESTO MESE: \n\n";
 	for (int i = 0; i < ordini_in_attesa.size(); i++)
 	{
 		if (ordini_in_attesa[i].getTime() == month)
 		{
 			cout << ordini_in_attesa[i] << "\n";
+			//incremento la cassa
 			cassa += ordini_in_attesa[i].getTotalPrice();
-			tmp.push_back(ordini_in_attesa[i]);
 			//elimina l'ordine venduto dalla coda
 			ordini_in_attesa.erase(ordini_in_attesa.begin() + i);
 			i--;
 		}
 	}
+	//elimino gli elettrodomestici venduti dal vettore
 	elettrodomestici_venduti();
 	
-	return tmp;
 }
 
+//Elimino gli elettrodomestici venduti dal vettore di eletrodomestici
 void Gestione::elettrodomestici_venduti()
 {
 	for (int i = 0; i < models.size(); i++)
@@ -233,6 +251,8 @@ void Gestione::elettrodomestici_venduti()
 	}
 }
 
+
+//Funzione che trovati gli elementi arrivati li inserisce in magazzino e li toglie dal vettore in_arrivo
 void Gestione::componenti_arrivati()
 {
 	for (int i = 0; i < parts.size(); i++)
@@ -248,6 +268,8 @@ void Gestione::componenti_arrivati()
 		}
 	}
 }
+
+//Ordina i componenti di un ordine da eseguire
 void Gestione::ordina_componenti()
 {
 	vector<Componente> tmp;
@@ -284,6 +306,7 @@ void Gestione::ordina_componenti()
 	}
 }
 
+//Cerca e restituisce elettrodomestico trovato tramite id
 Elettrodomestico Gestione::cercaElettrodomestico(int id)
 {
 	for (int i = 0; i < elet_disponibili.size(); i++)
@@ -293,6 +316,7 @@ Elettrodomestico Gestione::cercaElettrodomestico(int id)
 	}
 }
 
+//Aggiunge componenti iordinate al avettore parts
 void Gestione::aggiungiComponenti(int qta, Componente com)
 {
 	Componente_in_attesa tmp{com,month};
@@ -300,6 +324,7 @@ void Gestione::aggiungiComponenti(int qta, Componente com)
 	parts[parts.size() - 1].incrementQuantity(qta);
 }
 
+//Elimina componenti da magazzino quando sno stati venduti
 void Gestione::eliminaComponenti(Componente compon)
 {
 	for (int i = 0; i < magazzino.size(); i++)
@@ -310,6 +335,8 @@ void Gestione::eliminaComponenti(Componente compon)
 		}
 	}
 }
+
+//Aggiunge elettrodomestici ordinati a models
 void Gestione::aggiungiElettrodomestici(int qta, Elettrodomestico elett)
 {
 	for (int i = 0; i < qta; i++)
@@ -319,6 +346,7 @@ void Gestione::aggiungiElettrodomestici(int qta, Elettrodomestico elett)
 
 }
 
+//Aggiunge i componenti arrivati al magazzino
 void Gestione::aggiungiComponenti(Componente_in_attesa com)
 {
 
@@ -329,4 +357,13 @@ void Gestione::aggiungiComponenti(Componente_in_attesa com)
 			magazzino[i].setQuantity(magazzino[i].getQuantity() + com.getComponente().getQuantity());
 		}
 	}
+}
+
+//Se la simulazione è finita -> TRUE
+bool Gestione::finito()
+{
+	if (ordini_in_attesa.size() == 0 && orders.size() == 0)
+		return true;
+
+		return false;
 }

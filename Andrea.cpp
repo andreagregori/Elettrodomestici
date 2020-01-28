@@ -1,10 +1,19 @@
+//@autor ANDREA GREGORI
+
 #include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <string>
-#include "Intestazione.h"
+#include "Gestione.h"
+#include "Componente.h"
+#include "Componente_in_attesa.h"
+#include "Ordine.h"
+#include "Ordine_in_attesa.h"
+#include "Elettrodomestico.h"
+#include "Elettrodomestico_in_attesa.h"
 
 using namespace std;
+//CLASSE GESTIONE
 
 Gestione::Gestione() {
 	month = 0;
@@ -160,13 +169,6 @@ bool Gestione::is_elettrodomestico(int id) {
 	return false;
 }
 
-
-
-
-////////////////////////////////////
-//DA PASSARE NEL PROGETTO FINALE////
-////////////////////////////////////
-
 //Funzione che torna il componente disponibile con id richiesto
 int Gestione::getComponente_disponibile(int id_comp) const {
 	for (int i = 0; i < comp_disponibili.size(); i++)
@@ -181,13 +183,17 @@ int Gestione::getComponente_disponibile(int id_comp) const {
 
 //Funzione che ritora il mese corrente incrementato
 int Gestione::next_month() {
-	ordina_componenti();
+
+	month = month + 1;
+
 	componenti_arrivati();
 	ordini_evasi();
+	ordina_componenti();
 	stampa_c1();
 	stampa_magazzino();
+	cout << "CASSA: " << cassa << " euro \n";
 
-	return month = month + 1;
+	return month;
 }
 
 int Gestione::getMonth() const {
@@ -198,25 +204,6 @@ int Gestione::getMonth() const {
 void Gestione::sort_orders() {
 	sort(orders.begin(), orders.end());
 }
-
-//Funzione che ordina per time_stamp crescenti il vettore orders (SE NON FUNZIONA QUELLA SOPRA)
-/*void Gestione::sort_order() {
-	int min;
-	Ordine temp;
-	//Selection sort
-	for (int i = 0; i < orders.size(); i++)
-	{
-		min = i;
-		for (int j = i + 1; j < orders.size(); j++)
-		{
-			if (orders[j] < orders[min])
-				min = j;
-		}
-		temp = orders[min];
-		orders[min] = orders[i];
-		orders[i] = temp;
-	}
-}*/
 
 //Funzione che stampa elet_disponibili
 void Gestione::stampa_elet_disponibili() {
@@ -237,6 +224,7 @@ void Gestione::stampa_comp_disponibili() {
 	}
 }
 
+//Funzione che stampa gli ordini
 void Gestione::stampa_ordini() {
 	cout << "ORDINI\n\n";
 	for (int i = 0; i < orders.size(); i++)
@@ -245,6 +233,7 @@ void Gestione::stampa_ordini() {
 	}
 }
 
+//Funzione che stampa i componenti ordinati questo mese
 void Gestione::stampa_c1() {
 	cout << "COMPONENTI ORDINATI IN QUESTO MESE: \n\n";
 	for (int i = 0; i < parts.size(); i++)
@@ -254,6 +243,7 @@ void Gestione::stampa_c1() {
 	}
 }
 
+//Funzione che stampa il magazzino
 void Gestione::stampa_magazzino() {
 	cout << "COMPONENTI IN MAGAZZINO: \n\n";
 	for (int i = 0; i < magazzino.size(); i++)

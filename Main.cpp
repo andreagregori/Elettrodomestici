@@ -1,4 +1,4 @@
-// Main
+//@autor FRANCESCO BORTOLOTTO - ANDREA GREGORI - STEVEN BINOTTO
 
 #include <iostream>
 #include "Gestione.h"
@@ -28,17 +28,23 @@ int main()
 		cout << "--> Premere 0 per uscire <--\n";
 		cin >> input;
 		system("cls");
-
+		if (g.finito())
+		{
+			cout << "		///////////////////////\n";
+			cout << "		//SIMULAZIONE FINITA.//\n";
+			cout << "		///////////////////////\n";
+			break;
+		}
 		if (input == 'n')
 		{
 			cout << "\nMESE ATTUALE (" << g.getMonth() + 1 << ")\n\n";
+			//Funzione che incrementa di un mese il tempo.
 			g.next_month();
-			//chiamate delle funzioni che servono
 
 		}
 		else if (input == '0')
 		{
-			cout << "uscito";
+			cout << "SIMULAZIONE ARRESTATA";
 			flag = false;
 		}
 		else

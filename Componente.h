@@ -1,3 +1,5 @@
+//@autor FRANCESCO BORTOLOTTO
+
 #ifndef COMPONENTE_H
 #define COMPONENTE_H
 #include <iostream>
@@ -5,7 +7,9 @@
 
 using namespace std;
 
-class Componente					//Francesco
+//CLASSE COMPONENTE
+
+class Componente			
 {
 public:
 	Componente();
