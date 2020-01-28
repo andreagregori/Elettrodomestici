@@ -1,5 +1,10 @@
 //Steven Binotto
-#include "Intestazione.h"
+#include "Elettrodomestico.h"
+#include "Elettrodomestico_in_attesa.h"
+#include "Ordine.h"
+#include "Ordine_in_attesa.h"
+#include "Componente.h"
+#include "Componente_in_attesa.h"
 //ELETTRODOMESTICO
 
 //costruttore di un oggetto vuoto
@@ -87,6 +92,14 @@ void Elettrodomestico::setPrice(double prezzo)
 	price = prezzo;
 }
 
+
+double Elettrodomestico::calculatePrice(int qta)
+{
+	double sum = 0;
+	for (int i = 0; i < components.size(); i++)
+		sum += components[i].getPrice(components[i].getQuantity()*qta) * components[i].getQuantity()*qta;
+	return sum;
+}
 //calcola il prezzo del prodotto
 double Elettrodomestico::calculatePrice()
 {
@@ -170,6 +183,59 @@ int Elettrodomestico_in_attesa::calculateTime(int month)
 	}
 	max += month;						//aggiungo i mesi già grascorsi...
 	return max + 1;									//... e il mese per la produzione
+}
+
+int Elettrodomestico_in_attesa::getId() const
+{
+	return model.getId();
+}
+
+//restituisce il nome del modello
+string Elettrodomestico_in_attesa::getName() const
+{
+	return model.getName();
+}
+
+//restituisce un vettore di componenti
+vector<Componente> Elettrodomestico_in_attesa::getComponents() const
+{
+	return model.getComponents();
+}
+
+//restituisce il prezzo del prodotto
+double Elettrodomestico_in_attesa::getPrice() const
+{
+	return model.getPrice();
+}
+
+//modifica l'id
+void Elettrodomestico_in_attesa::setId(int num)
+{
+	model.setId(num);
+}
+
+//modifica il nome
+void Elettrodomestico_in_attesa::setName(string n)
+{
+	model.setName(n);
+}
+
+//modifica il vettore di componenti
+void Elettrodomestico_in_attesa::setComponents(const vector<Componente>& parts)
+{
+	model.setComponents(parts);
+}
+
+//modifica il prezzo del prodotto
+void Elettrodomestico_in_attesa::setPrice(double prezzo)
+{
+	model.setPrice(prezzo);
+}
+
+//calcola il prezzo del prodotto
+double Elettrodomestico_in_attesa::calculatePrice()
+{
+	return model.calculatePrice();
 }
 
 ostream& operator<<(ostream& os, const Elettrodomestico_in_attesa& el)
@@ -335,4 +401,48 @@ ostream& operator<<(ostream& os, const Ordine_in_attesa& ord)
 {
 	os << ord.getOrder();
 	return os;
+}
+
+int Ordine_in_attesa::getTimeStamp() const
+{
+	return order.getTimeStamp();
+}
+
+//restituisce il modello
+int Ordine_in_attesa::getModelRequired() const
+{
+	return order.getModelRequired();
+}
+
+//restituisce la quantità di modelli
+int Ordine_in_attesa::getQuantity() const
+{
+	return order.getQuantity();
+}
+
+//modifica il mese dell'ordine
+void Ordine_in_attesa::setTimeStamp(int time)
+{
+	order.setTimeStamp(time);
+}
+
+//modifica il modello richiesto
+void Ordine_in_attesa::setModelRequired(int model)
+{
+	order.setModelRequired(model);
+}
+
+//modifica la quantità di modelli
+void Ordine_in_attesa::setQuantity(int num)
+{
+	order.setQuantity(num);
+}
+
+bool Ordine_in_attesa::operator<(const Ordine& ord) const {
+	return (order.getTimeStamp() < ord.getTimeStamp());
+}
+
+int Ordine_in_attesa::tempo_necessario(Elettrodomestico e)
+{
+	return Elettrodomestico_in_attesa(e, 0).calculateTime(0);
 }

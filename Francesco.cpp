@@ -3,7 +3,13 @@
 //Classe componente
 #include <iostream>
 #include <string>
-#include "Intestazione.h"
+#include "Gestione.h"
+#include "Componente.h"
+#include "Componente_in_attesa.h"
+#include "Ordine.h"
+#include "Ordine_in_attesa.h"
+#include "Elettrodomestico.h"
+#include "Elettrodomestico_in_attesa.h"
 
 using namespace std;
 
@@ -125,6 +131,63 @@ Componente Componente_in_attesa::getComponente() const
 	return componente;
 }
 
+void Componente_in_attesa::setId(int ident) 
+{
+	componente.setId(ident);
+}
+
+void Componente_in_attesa::setName(string nome) {
+	componente.setName(nome);
+}
+
+void Componente_in_attesa::setDeliveryTime(int time) {
+	componente.setDeliveryTime(time);
+}
+
+void Componente_in_attesa::setQuantity(int qta) {
+	componente.setQuantity(qta);
+}
+
+
+string Componente_in_attesa::getName() const {
+	return componente.getName();
+}
+
+double Componente_in_attesa::getPrice(int qta) const {
+	if (qta < 11)
+		return componente.getPrice(5);
+
+	if (qta < 51 || qta > 10)
+		return componente.getPrice(15);
+
+	if (qta > 50)
+		return componente.getPrice(60);
+}
+
+double* Componente_in_attesa::getPrices() {
+
+	return	componente.getPrices();
+}
+
+
+int Componente_in_attesa::getDeliveryTime() const {
+	return componente.getDeliveryTime();
+}
+
+int Componente_in_attesa::getQuantity() const {
+	return componente.getQuantity();
+}
+
+void Componente_in_attesa::incrementQuantity(int qta_elett) {
+	componente.setQuantity(componente.getQuantity() * qta_elett);
+}
+
+void Componente_in_attesa::eliminaComponente(int qta)
+{
+	if(qta < componente.getQuantity())
+		componente.setQuantity(componente.getQuantity() - qta);
+}
+
 ostream& operator<< (ostream& os, const Componente_in_attesa& c) {
 	os << c.getComponente();
 	return os;
@@ -134,16 +197,17 @@ ostream& operator<< (ostream& os, const Componente_in_attesa& c) {
 vector<Ordine> Gestione::ordini_evasi()
 {
 	vector<Ordine> tmp;
-	cout << "ORDINI EVASI IN QUESTO MESE: \n";
+	cout << "ORDINI EVASI IN QUESTO MESE: \n\n";
 	for (int i = 0; i < ordini_in_attesa.size(); i++)
 	{
 		if (ordini_in_attesa[i].getTime() == month)
 		{
 			cout << ordini_in_attesa[i] << "\n";
+			cassa += ordini_in_attesa[i].getTotalPrice();
 			tmp.push_back(ordini_in_attesa[i]);
 			//elimina l'ordine venduto dalla coda
 			ordini_in_attesa.erase(ordini_in_attesa.begin() + i);
-
+			i--;
 		}
 	}
 	elettrodomestici_venduti();
@@ -158,15 +222,13 @@ void Gestione::elettrodomestici_venduti()
 		if (models[i].getTime() == month)
 		{
 			vector<Componente> tmp = models[i].getComponents();
-			cassa += models[i].getPrice();
 			for (int i = 0; i < tmp.size(); i++)
 			{
 				eliminaComponenti(tmp[i]);
 			}
 			//elimina l'elettrodomestico venduto dalla coda
 			models.erase(models.begin() + i);
-			
-
+			i--;
 		}
 	}
 }
@@ -175,12 +237,14 @@ void Gestione::componenti_arrivati()
 {
 	for (int i = 0; i < parts.size(); i++)
 	{
+		
 		if (parts[i].getWaitingTime() == month)
 		{
 			//id ok
 			aggiungiComponenti(parts[i]);
 			//elimina componenti arrivati dalla coda
 			parts.erase(parts.begin() + i);
+			i--;
 		}
 	}
 }
@@ -195,12 +259,11 @@ void Gestione::ordina_componenti()
 		int qta = orders[i].getQuantity();
 		double prex = 0;
 		for (int j = 0; j < elet_disponibili.size(); j++)
-		{
-			if (elet_disponibili[j].getId() == idel)
-				prex = elet_disponibili[j].calculatePrice();
+		{	
 
-			if (orders.size() > 0 && orders[i].getTimeStamp() <= month && cassa >= prex)    // **Condizione per ordinare i componenti
+			if (elet_disponibili[j].getId() == idel && orders.size() > 0 && orders[i].getTimeStamp() <= month && cassa >= (elet_disponibili[j].calculatePrice(qta)))    // **Condizione per ordinare i componenti
 			{
+				prex = elet_disponibili[j].calculatePrice(qta);
 				//prende l'elettrodomestico richiesto dall'ordine
 				Elettrodomestico tmp1 = cercaElettrodomestico(orders[i].getModelRequired());
 				//estrapola i componenti dell'elettrodomestico
@@ -209,13 +272,13 @@ void Gestione::ordina_componenti()
 				//aggiunge i componenti alla coda parts
 				for (int k = 0; k < tmp.size(); k++)
 				{
-					cassa -= tmp[k].getPrice(tmp[k].getQuantity()) * tmp[k].getQuantity();
 					aggiungiComponenti(orders[i].getQuantity(), tmp[k]);
 				}
-
+				cassa -= prex;
 				aggiungiElettrodomestici(orders[i].getQuantity(), tmp1);
 				ordini_in_attesa.push_back(Ordine_in_attesa(orders[i], month, Elettrodomestico_in_attesa(tmp1, month)));
 				orders.erase(orders.begin() + i);
+				i--;
 			}
 		}
 	}

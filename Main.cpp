@@ -1,7 +1,13 @@
 // Main
 
 #include <iostream>
-#include "Intestazione.h"
+#include "Gestione.h"
+#include "Componente.h"
+#include "Componente_in_attesa.h"
+#include "Ordine.h"
+#include "Ordine_in_attesa.h"
+#include "Elettrodomestico.h"
+#include "Elettrodomestico_in_attesa.h"
 
 using namespace std;
 
